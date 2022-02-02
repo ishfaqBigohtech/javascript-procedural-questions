@@ -11,7 +11,7 @@
 // Try to achieve OOPS , and SOLID principles as much as you can,
 // Also, we will add new use cases to see whether your system can adapt to those changes. If Not, then your design is bad. (SOLID,TRY,YAGNI,KISS)
 
-export class Currency {
+class Currency {
   constructor() {}
 
   denominations() {
@@ -23,3 +23,5 @@ export class Currency {
     };
   }
 }
+
+export default new Currency();

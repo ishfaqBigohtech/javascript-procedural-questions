@@ -11,41 +11,98 @@
 // Try to achieve OOPS , and SOLID principles as much as you can,
 // Also, we will add new use cases to see whether your system can adapt to those changes. If Not, then your design is bad. (SOLID,TRY,YAGNI,KISS)
 
-import { Currency } from "./currency";
+import currency from "./currency";
 
-class AtmCash extends Currency {
+class AtmCash {
+  totalAvailableCash: number = 0;
+
   constructor() {
-    super();
-  }
-
-  getCurrencies() {
-    return {
-      hundreds: this.denominations().hundred,
-      twohundred: this.denominations().twohundred,
-      fivehundred: this.denominations().fivehundred,
-      twothousand: this.denominations().twoThousand,
-    };
+    this.availableCash();
   }
 
   hundredCurrency(totalHundreds: number) {
-    return (this.denominations().hundred = totalHundreds);
+    return (currency.denominations().hundred = totalHundreds);
   }
   twohundredCurrency(totaltwoHundred: number) {
-    return (this.denominations().twohundred = totaltwoHundred);
+    return (currency.denominations().twohundred = totaltwoHundred);
   }
   fiveHundredCurrecy(totalFiveHundred: number) {
-    return (this.denominations().fivehundred = totalFiveHundred);
+    return (currency.denominations().fivehundred = totalFiveHundred);
   }
   twoThousandCurrency(totalTwothousands: number) {
-    return (this.denominations().twoThousand = totalTwothousands);
+    return (currency.denominations().twoThousand = totalTwothousands);
   }
 
-  calculateCurrencies() {
-    this.getCurrencies().hundreds = 60;
+  totalHundreds() {
+    return this.hundredCurrency(1);
   }
 
-  availableCash(availableCash: number) {
-    return availableCash;
+  totalTwoHundred() {
+    return this.twohundredCurrency(2);
+  }
+
+  totalFiveHundred() {
+    return this.fiveHundredCurrecy(2);
+  }
+
+  totalTwoThousands() {
+    return this.twoThousandCurrency(3);
+  }
+
+  availableCash() {
+    this.totalAvailableCash =
+      this.totalHundreds() * 100 +
+      this.totalTwoHundred() * 200 +
+      this.totalFiveHundred() * 500 +
+      this.totalTwoThousands() * 2000;
+    console.log("total cash in ATM: ", this.totalAvailableCash);
+
+    return this.totalAvailableCash;
+  }
+
+  withdrawAmount(amount: number) {
+    let pendingAmount: number = 0;
+    let counter: number = 0;
+    if (this.totalAvailableCash < amount) return `Insufficient balance!`;
+
+    if (this.totalAvailableCash > currency.denominations().twoThousand) {
+      let remainder = amount % currency.denominations().twoThousand;
+      console.log("give me the results", remainder);
+
+      counter++;
+      console.log("counter", counter++);
+      pendingAmount = remainder;
+    }
+
+    if (this.totalAvailableCash > currency.denominations().fivehundred) {
+      console.log("pending amount", pendingAmount);
+      let remainder = pendingAmount % currency.denominations().fivehundred;
+
+      pendingAmount = remainder;
+      console.log("remaining", pendingAmount);
+    }
+
+    if (this.totalAvailableCash > currency.denominations().twohundred) {
+      console.log(pendingAmount);
+    }
+
+    if (this.totalAvailableCash > currency.denominations().hundred) {
+    }
+    if (
+      this.totalHundreds() < 1 ||
+      this.totalTwoHundred() < 1 ||
+      this.totalFiveHundred() < 1 ||
+      this.totalTwoThousands() < 1
+    ) {
+      return `Please, enter multiples of amount!`;
+    }
+    this.updateAvailableCash(amount);
+    return `${amount} withdrawal, success!`;
+  }
+
+  updateAvailableCash(withdrawalAmount: number) {
+    this.totalAvailableCash = this.totalAvailableCash - withdrawalAmount;
+    console.log("Available cash after withdrawal!", this.totalAvailableCash);
   }
 }
 

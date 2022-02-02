@@ -12,39 +12,10 @@
 // Try to achieve OOPS , and SOLID principles as much as you can,
 // Also, we will add new use cases to see whether your system can adapt to those changes. If Not, then your design is bad. (SOLID,TRY,YAGNI,KISS)
 
-import atmCash from "./atmcash";
-import { Currency } from "./currency";
-
-class Withdrawal extends Currency {
-  totalAvailableCash: number = 0;
-  constructor() {
-    super();
-    this.acceptingCurrencies();
-  }
-
-  acceptingCurrencies() {
-    let denomination = this.denominations();
-    console.log(denomination);
-  }
-
-  totalHundreds() {
-    return atmCash.hundredCurrency(1);
-  }
-
-  totalTwoHundred() {
-    return atmCash.twohundredCurrency(2);
-  }
-
-  totalFiveHundred() {
-    return atmCash.fiveHundredCurrecy(2);
-  }
-
-  totalTwoThousands() {
-    return atmCash.twoThousandCurrency(3);
-  }
+class Withdrawal {
+  constructor() {}
 
   // function to count and
-  // print currency notes
   countCurrency(amount: number) {
     let notes = [2000, 500, 200, 100];
     let noteCounter = Array(4).fill(0);
@@ -64,39 +35,6 @@ class Withdrawal extends Currency {
         console.log(notes[i] + " : " + noteCounter[i]);
       }
     }
-  }
-
-  availableCash() {
-    this.totalAvailableCash =
-      this.totalHundreds() * 100 +
-      this.totalTwoHundred() * 200 +
-      this.totalFiveHundred() * 500 +
-      this.totalTwoThousands() * 2000;
-    console.log("total cash in ATM: ", this.totalAvailableCash);
-
-    return this.totalAvailableCash;
-  }
-
-  withdrawAmount(amount: number) {
-    if (this.totalAvailableCash < amount) return `Insufficient balance!`;
-
-    if (this.totalHundreds() < 1 || this.totalTwoHundred() < 1)
-      return `Please, enter multiples of amount!`;
-
-    if (
-      this.totalHundreds() < 1 ||
-      this.totalTwoHundred() < 1 ||
-      this.totalFiveHundred() < 1 ||
-      this.totalTwoThousands() < 1
-    ) {
-      return `Please, enter multiples of amount!`;
-    }
-
-    console.log("teees", this.totalAvailableCash % 100);
-
-    this.countCurrency(amount);
-
-    return `${amount} success!`;
   }
 }
 export default new Withdrawal();

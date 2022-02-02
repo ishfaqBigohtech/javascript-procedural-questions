@@ -11,6 +11,7 @@
 // Try to achieve OOPS , and SOLID principles as much as you can,
 // Also, we will add new use cases to see whether your system can adapt to those changes. If Not, then your design is bad. (SOLID,TRY,YAGNI,KISS)
 
+import atmcash from "./src/atmcash";
 import withdrawal from "./src/withdrawal";
 
 class App {
@@ -19,11 +20,12 @@ class App {
   }
 
   availableCash() {
-    return withdrawal.availableCash();
+    // return withdrawal.availableCash();
   }
 
   withdraw(amount: number) {
-    return withdrawal.withdrawAmount(amount);
+    // return withdrawal.withdrawAmount(amount);
+    return atmcash.withdrawAmount(amount);
   }
   countCurrency(amount: number) {
     return withdrawal.countCurrency(amount);
@@ -31,5 +33,5 @@ class App {
 }
 
 const result = new App();
-console.log(result.withdraw(300));
+console.log(result.withdraw(5000));
 // console.log("currencies: ", result.countCurrency(1800));
