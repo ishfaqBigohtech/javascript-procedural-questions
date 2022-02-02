@@ -15,23 +15,11 @@ import atmcash from "./src/atmcash";
 import withdrawal from "./src/withdrawal";
 
 class App {
-  constructor() {
-    this.availableCash();
-  }
-
-  availableCash() {
-    // return withdrawal.availableCash();
-  }
-
+  constructor() {}
   withdraw(amount: number) {
-    // return withdrawal.withdrawAmount(amount);
     return atmcash.withdrawAmount(amount);
-  }
-  countCurrency(amount: number) {
-    return withdrawal.countCurrency(amount);
   }
 }
 
 const result = new App();
-console.log(result.withdraw(5000));
-// console.log("currencies: ", result.countCurrency(1800));
+console.log(result.withdraw(4000));

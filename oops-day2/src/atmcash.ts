@@ -38,15 +38,15 @@ class AtmCash {
   }
 
   totalTwoHundred() {
-    return this.twohundredCurrency(2);
+    return this.twohundredCurrency(1);
   }
 
   totalFiveHundred() {
-    return this.fiveHundredCurrecy(2);
+    return this.fiveHundredCurrecy(0);
   }
 
   totalTwoThousands() {
-    return this.twoThousandCurrency(3);
+    return this.twoThousandCurrency(4);
   }
 
   availableCash() {
@@ -61,41 +61,77 @@ class AtmCash {
   }
 
   withdrawAmount(amount: number) {
-    let pendingAmount: number = 0;
+    let pendingAmount: number = amount;
     let counter: number = 0;
+
     if (this.totalAvailableCash < amount) return `Insufficient balance!`;
 
-    if (this.totalAvailableCash > currency.denominations().twoThousand) {
+    if (
+      this.totalAvailableCash > currency.denominations().twoThousand &&
+      amount >= currency.denominations().twoThousand &&
+      pendingAmount >= currency.denominations().fivehundred &&
+      amount >= this.totalTwoThousands()
+    ) {
       let remainder = amount % currency.denominations().twoThousand;
-      console.log("give me the results", remainder);
-
+      pendingAmount = remainder;
       counter++;
-      console.log("counter", counter++);
+      console.log("2000 count: ", counter);
+    }
+
+    if (
+      this.totalAvailableCash > currency.denominations().fivehundred &&
+      amount >= currency.denominations().fivehundred &&
+      pendingAmount >= currency.denominations().fivehundred &&
+      amount >= this.totalFiveHundred()
+    ) {
+      let remainder = amount % currency.denominations().fivehundred;
       pendingAmount = remainder;
+      console.log("remaining 500: ", pendingAmount);
     }
 
-    if (this.totalAvailableCash > currency.denominations().fivehundred) {
-      console.log("pending amount", pendingAmount);
-      let remainder = pendingAmount % currency.denominations().fivehundred;
-
+    if (
+      this.totalAvailableCash > currency.denominations().twohundred &&
+      amount >= currency.denominations().twohundred &&
+      pendingAmount >= currency.denominations().twohundred &&
+      amount >= this.totalTwoHundred()
+    ) {
+      let remainder = amount % currency.denominations().twohundred;
       pendingAmount = remainder;
-      console.log("remaining", pendingAmount);
+      console.log("All 200 count: ", remainder);
+
+      if (remainder < 100 && remainder !== 0)
+        return `The ${amount} must be in multiple of 100s!`;
     }
 
-    if (this.totalAvailableCash > currency.denominations().twohundred) {
-      console.log(pendingAmount);
-    }
+    if (
+      this.totalAvailableCash > currency.denominations().hundred &&
+      amount >= currency.denominations().hundred &&
+      pendingAmount >= currency.denominations().hundred &&
+      amount >= this.totalHundreds()
+    ) {
+      let remainder = amount % currency.denominations().hundred;
+      pendingAmount = remainder;
+      console.log("100 count: ", counter++);
 
-    if (this.totalAvailableCash > currency.denominations().hundred) {
+      if (remainder < 100 && remainder !== 0)
+        return `The ${amount} must be in multiple of 100s!`;
     }
     if (
-      this.totalHundreds() < 1 ||
-      this.totalTwoHundred() < 1 ||
-      this.totalFiveHundred() < 1 ||
-      this.totalTwoThousands() < 1
-    ) {
-      return `Please, enter multiples of amount!`;
-    }
+      amount < currency.denominations().twoThousand &&
+      amount < currency.denominations().fivehundred &&
+      amount < currency.denominations().twohundred &&
+      amount < currency.denominations().hundred
+    )
+      return `Amount ${amount} entered is less, please add multiple of 100!`;
+    // if (
+    //   this.totalHundreds() < 1 ||
+    //   this.totalTwoHundred() < 1 ||
+    //   this.totalFiveHundred() < 1 ||
+    //   this.totalTwoThousands() < 1
+    // ) {
+    //   return `Please, enter multiples of amount!`;
+    // }
+
     this.updateAvailableCash(amount);
     return `${amount} withdrawal, success!`;
   }
